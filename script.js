@@ -1,6 +1,12 @@
 /* ════════════════════════════════════════════════
    NAZRITHM — script.js
    Interactions: Cursor · Nav · Scroll · Animations
+   NOTES:
+     - This file controls page interactivity and animation behavior.
+     - Add new page elements to the matching section below.
+     - If you add buttons, cards, or anchors, update `updateHoverState()`
+       and anchor scroll logic accordingly.
+     - Keep any new section IDs aligned with the HTML nav links.
  ════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
