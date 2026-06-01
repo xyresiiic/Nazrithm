@@ -1,9 +1,31 @@
 /* ════════════════════════════════════════════════
    NAZRITHM — script.js
    Interactions: Cursor · Nav · Scroll · Animations
-════════════════════════════════════════════════ */
+ ════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    /* ──────────────────────────────────────────────
+       0. PRELOADER & INITIAL LOAD HERO REVEAL
+    ────────────────────────────────────────────── */
+    const preloader = document.getElementById('preloader');
+    
+    const dismissPreloader = () => {
+        if (preloader) {
+            preloader.classList.add('fade-out');
+            setTimeout(() => {
+                preloader.remove(); // Remove from DOM after transition
+                document.body.classList.add('preloader-done');
+            }, 800); // match transition duration
+        } else {
+            document.body.classList.add('preloader-done');
+        }
+    };
+
+    // Safely trigger preloader dismissal on window load (or fallback timeout)
+    window.addEventListener('load', dismissPreloader);
+    setTimeout(dismissPreloader, 2500); // fallback timeout 2.5s
+
 
     /* ──────────────────────────────────────────────
        1. CUSTOM CURSOR
@@ -18,37 +40,51 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            cursor.style.transform = `translate(${mouseX - 5}px, ${mouseY - 5}px)`;
+            cursor.style.left = `${mouseX}px`;
+            cursor.style.top = `${mouseY}px`;
         });
 
         // Smooth follower via rAF
         const animateFollow = () => {
             followX += (mouseX - followX) * 0.12;
             followY += (mouseY - followY) * 0.12;
-            cursorFollow.style.transform = `translate(${followX - 18}px, ${followY - 18}px)`;
+            cursorFollow.style.left = `${followX}px`;
+            cursorFollow.style.top = `${followY}px`;
             requestAnimationFrame(animateFollow);
         };
         animateFollow();
 
         // Cursor expand on interactive elements
-        const hoverEls = document.querySelectorAll(
-            'a, button, .service-card, .work-card, .testi-card, .pill'
-        );
+        const updateHoverState = () => {
+            const hoverEls = document.querySelectorAll(
+                'a, button, .service-card, .work-card, .testi-card, .pill, .accordion-header, input, textarea, select'
+            );
 
-        hoverEls.forEach((el) => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform += ' scale(2.5)';
-                cursorFollow.style.opacity = '0.25';
-                cursorFollow.style.transform += ' scale(1.6)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = cursor.style.transform.replace(' scale(2.5)', '');
-                cursorFollow.style.opacity = '1';
-                cursorFollow.style.transform = cursorFollow.style.transform.replace(' scale(1.6)', '');
-            });
-        });
+            hoverEls.forEach((el) => {
+                // Remove existing listeners to prevent duplication if called multiple times
+                el.removeEventListener('mouseenter', addCursorHover);
+                el.removeEventListener('mouseleave', removeCursorHover);
 
-        // Hide on mouse leave
+                el.addEventListener('mouseenter', addCursorHover);
+                el.addEventListener('mouseleave', removeCursorHover);
+            });
+        };
+
+        const addCursorHover = () => {
+            cursor.classList.add('cursor-hover');
+            cursorFollow.classList.add('cursor-follow-hover');
+        };
+
+        const removeCursorHover = () => {
+            cursor.classList.remove('cursor-hover');
+            cursorFollow.classList.remove('cursor-follow-hover');
+        };
+
+        updateHoverState();
+        // Export cursor hover refresh helper
+        window.refreshCursorHover = updateHoverState;
+
+        // Hide cursor on mouse leave window
         document.addEventListener('mouseleave', () => {
             cursor.style.opacity = '0';
             cursorFollow.style.opacity = '0';
@@ -185,12 +221,20 @@ document.addEventListener('DOMContentLoaded', () => {
         (entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    animateCounter(entry.target);
-                    counterObserver.unobserve(entry.target);
+                    const startAnimation = () => {
+                        animateCounter(entry.target);
+                        counterObserver.unobserve(entry.target);
+                    };
+
+                    if (document.body.classList.contains('preloader-done')) {
+                        startAnimation();
+                    } else {
+                        window.addEventListener('preloaderFinished', startAnimation, { once: true });
+                    }
                 }
             });
         },
-        { threshold: 0.5 }
+        { threshold: 0.2 } // Lower threshold to ensure it triggers correctly
     );
 
     counters.forEach((counter) => counterObserver.observe(counter));
@@ -324,9 +368,141 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /* ──────────────────────────────────────────────
+       14. FAQ ACCORDION
+    ────────────────────────────────────────────── */
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach((header) => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            const collapse = header.nextElementSibling;
+            const isExpanded = header.getAttribute('aria-expanded') === 'true';
+
+            // Close all other items
+            document.querySelectorAll('.accordion-item').forEach((otherItem) => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    otherItem.classList.remove('active');
+                    const otherHeader = otherItem.querySelector('.accordion-header');
+                    const otherCollapse = otherItem.querySelector('.accordion-collapse');
+                    otherHeader.setAttribute('aria-expanded', 'false');
+                    otherCollapse.style.maxHeight = null;
+                    otherCollapse.setAttribute('aria-hidden', 'true');
+                }
+            });
+
+            // Toggle current item
+            if (isExpanded) {
+                header.setAttribute('aria-expanded', 'false');
+                collapse.style.maxHeight = null;
+                collapse.setAttribute('aria-hidden', 'true');
+                item.classList.remove('active');
+            } else {
+                header.setAttribute('aria-expanded', 'true');
+                collapse.style.maxHeight = `${collapse.scrollHeight}px`;
+                collapse.setAttribute('aria-hidden', 'false');
+                item.classList.add('active');
+            }
+        });
+    });
+
 
     /* ──────────────────────────────────────────────
-       14. INITIAL PAGE LOAD — Stagger Hero Elements
+       15. INQUIRY FORM VALIDATION & SUBMISSION
+    ────────────────────────────────────────────── */
+    const inquiryForm = document.getElementById('inquiryForm');
+    const successAlert = document.getElementById('formSuccess');
+    const errorAlert = document.getElementById('formError');
+
+    if (inquiryForm) {
+        const validateField = (inputEl) => {
+            const group = inputEl.closest('.form-group');
+            if (!group) return true;
+
+            let isValid = true;
+            if (inputEl.hasAttribute('required')) {
+                if (inputEl.type === 'checkbox') {
+                    isValid = inputEl.checked;
+                } else if (inputEl.tagName === 'SELECT') {
+                    isValid = inputEl.value !== '';
+                } else {
+                    isValid = inputEl.value.trim() !== '';
+                }
+            }
+
+            if (isValid && inputEl.type === 'email' && inputEl.value.trim() !== '') {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                isValid = emailRegex.test(inputEl.value.trim());
+            }
+
+            if (isValid) {
+                group.classList.remove('invalid');
+            } else {
+                group.classList.add('invalid');
+            }
+
+            return isValid;
+        };
+
+        // Attach live input listeners to clear errors on type
+        inquiryForm.querySelectorAll('input, select, textarea').forEach((inputEl) => {
+            const triggerEvent = inputEl.tagName === 'SELECT' ? 'change' : 'input';
+            inputEl.addEventListener(triggerEvent, () => {
+                validateField(inputEl);
+            });
+            inputEl.addEventListener('blur', () => {
+                validateField(inputEl);
+            });
+        });
+
+        // Submit handler
+        inquiryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Validate all fields
+            let isFormValid = true;
+            inquiryForm.querySelectorAll('input, select, textarea').forEach((inputEl) => {
+                const isFieldValid = validateField(inputEl);
+                if (!isFieldValid) isFormValid = false;
+            });
+
+            if (!isFormValid) {
+                if (errorAlert) {
+                    errorAlert.style.display = 'block';
+                    if (successAlert) successAlert.style.display = 'none';
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 5000);
+                }
+                return;
+            }
+
+            // Valid Form: Submit State
+            inquiryForm.classList.add('loading');
+            if (successAlert) successAlert.style.display = 'none';
+            if (errorAlert) errorAlert.style.display = 'none';
+
+            // Simulate server submission (e.g. 2 seconds delay)
+            setTimeout(() => {
+                inquiryForm.classList.remove('loading');
+                
+                // Simulate success
+                if (successAlert) {
+                    successAlert.style.display = 'block';
+                    inquiryForm.reset();
+                    
+                    // Hide alert after 8 seconds
+                    setTimeout(() => {
+                        successAlert.style.display = 'none';
+                    }, 8000);
+                }
+            }, 2000);
+        });
+    }
+
+
+    /* ──────────────────────────────────────────────
+       16. INITIAL PAGE LOAD — Stagger Hero Elements
     ────────────────────────────────────────────── */
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {
