@@ -1344,8 +1344,8 @@ nav.scrolled {
 
 .work-grid {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
 }
 
 .work-card {
@@ -1362,22 +1362,10 @@ nav.scrolled {
     border-color: rgba(241, 224, 193, 0.12);
 }
 
-.work-wide {
-    grid-column: span 7;
-}
-
-.work-narrow {
-    grid-column: span 5;
-}
-
-.work-third {
-    grid-column: span 4;
-}
-
 .work-thumb {
     width: 100%;
     overflow: hidden;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1 / 1;
     position: relative;
 }
 
@@ -2246,16 +2234,8 @@ nav.scrolled {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .work-wide {
-        grid-column: span 12;
-    }
-
-    .work-narrow {
-        grid-column: span 12;
-    }
-
-    .work-third {
-        grid-column: span 6;
+    .work-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .process-steps {
@@ -2539,14 +2519,8 @@ nav.scrolled {
         gap: 1rem;
     }
 
-    .work-wide,
-    .work-narrow,
-    .work-third {
-        grid-column: span 1;
-    }
-
     .work-thumb {
-        aspect-ratio: 16 / 10;
+        aspect-ratio: 1 / 1;
     }
 
     .work-info {
