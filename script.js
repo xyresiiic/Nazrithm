@@ -483,26 +483,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Valid Form: Submit State
+            // Valid Form: Submit to Web3Forms
             inquiryForm.classList.add('loading');
             if (successAlert) successAlert.style.display = 'none';
             if (errorAlert) errorAlert.style.display = 'none';
 
-            // Simulate server submission (e.g. 2 seconds delay)
-            setTimeout(() => {
+            const formData = new FormData(inquiryForm);
+            const jsonData = Object.fromEntries(formData);
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => response.json())
+            .then(data => {
                 inquiryForm.classList.remove('loading');
-                
-                // Simulate success
-                if (successAlert) {
-                    successAlert.style.display = 'block';
-                    inquiryForm.reset();
-                    
-                    // Hide alert after 8 seconds
-                    setTimeout(() => {
-                        successAlert.style.display = 'none';
-                    }, 8000);
+
+                if (data.success) {
+                    if (successAlert) {
+                        successAlert.style.display = 'block';
+                        inquiryForm.reset();
+                        setTimeout(() => {
+                            successAlert.style.display = 'none';
+                        }, 8000);
+                    }
+                } else {
+                    if (errorAlert) {
+                        errorAlert.style.display = 'block';
+                        setTimeout(() => {
+                            errorAlert.style.display = 'none';
+                        }, 5000);
+                    }
                 }
-            }, 2000);
+            })
+            .catch(() => {
+                inquiryForm.classList.remove('loading');
+                if (errorAlert) {
+                    errorAlert.style.display = 'block';
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 5000);
+                }
+            });
         });
     }
 
