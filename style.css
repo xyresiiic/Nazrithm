@@ -1294,6 +1294,14 @@ nav.scrolled {
     transition: transform var(--transition);
 }
 
+.service-icon i {
+    font-size: 1.1rem;
+    color: var(--gold);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .service-card:hover .service-icon {
     background: rgba(221, 184, 114, 0.12);
     border-color: rgba(221, 184, 114, 0.25);
