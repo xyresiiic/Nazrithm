@@ -2759,7 +2759,7 @@ nav.scrolled {
 
     /* Work */
     .work-thumb {
-        aspect-ratio: 16 / 11;
+        aspect-ratio: 1 / 1;
     }
 
     .work-info {
