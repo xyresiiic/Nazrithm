@@ -366,11 +366,7 @@ nav {
     left: 0;
     right: 0;
     z-index: 200;
-    padding: 1.4rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
+    padding: 1.4rem 0;
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     background: rgba(7, 11, 24, 0.84);
@@ -379,21 +375,35 @@ nav {
     transition: padding var(--transition), background var(--transition), box-shadow var(--transition);
 }
 
+.nav-container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
 @media (min-width: 768px) {
     nav {
-        padding: 1.4rem 3rem;
+        padding: 1.4rem 0;
+    }
+    .nav-container {
+        padding: 0 3rem;
         gap: 2rem;
     }
 }
 
 nav.scrolled {
-    padding: 1rem 2rem;
+    padding: 1rem 0;
     background: rgba(0, 0, 0, 0.92);
 }
 
 @media (min-width: 768px) {
     nav.scrolled {
-        padding: 1rem 3rem;
+        padding: 1rem 0;
     }
 }
 
@@ -518,14 +528,14 @@ nav.scrolled {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 9rem 2rem 5rem;
+    padding: 9rem 0 5rem;
     position: relative;
     overflow: hidden;
 }
 
 @media (min-width: 768px) {
     .hero {
-        padding: 9rem 3rem 5rem;
+        padding: 9rem 0 5rem;
     }
 }
 
@@ -575,6 +585,11 @@ nav.scrolled {
     position: relative;
     z-index: 1;
     max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .hero-eyebrow {
@@ -608,6 +623,7 @@ nav.scrolled {
     margin-bottom: 1.2rem;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 0.1em;
 }
 
@@ -668,6 +684,7 @@ nav.scrolled {
 .hero-actions {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1.2rem;
     flex-wrap: wrap;
     opacity: 0;
@@ -681,6 +698,8 @@ nav.scrolled {
 .hero-stats {
     display: flex;
     align-items: center;
+    justify-content: center;
+    width: 100%;
     gap: 3rem;
     margin-top: 4rem;
     padding-top: 2.5rem;
@@ -696,7 +715,7 @@ nav.scrolled {
 .stat {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .stat-number {
@@ -3046,13 +3065,6 @@ nav.scrolled {
     border-color: rgba(221, 184, 114, 0.3);
 }
 
-.pricing-card.popular {
-    border-color: #3b82f6;
-}
-
-.pricing-card.popular:hover {
-    border-color: #60a5fa;
-}
 
 .pricing-badge {
     display: inline-block;
