@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
        0. PRELOADER & INITIAL LOAD HERO REVEAL
     ────────────────────────────────────────────── */
     const preloader = document.getElementById('preloader');
-    
+
     const dismissPreloader = () => {
         if (preloader) {
             preloader.classList.add('fade-out');
@@ -499,36 +499,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 body: JSON.stringify(jsonData)
             })
-            .then(response => response.json())
-            .then(data => {
-                inquiryForm.classList.remove('loading');
+                .then(response => response.json())
+                .then(data => {
+                    inquiryForm.classList.remove('loading');
 
-                if (data.success) {
-                    if (successAlert) {
-                        successAlert.style.display = 'block';
-                        inquiryForm.reset();
-                        setTimeout(() => {
-                            successAlert.style.display = 'none';
-                        }, 8000);
+                    if (data.success) {
+                        if (successAlert) {
+                            successAlert.style.display = 'block';
+                            inquiryForm.reset();
+                            setTimeout(() => {
+                                successAlert.style.display = 'none';
+                            }, 8000);
+                        }
+                    } else {
+                        if (errorAlert) {
+                            errorAlert.style.display = 'block';
+                            setTimeout(() => {
+                                errorAlert.style.display = 'none';
+                            }, 5000);
+                        }
                     }
-                } else {
+                })
+                .catch(() => {
+                    inquiryForm.classList.remove('loading');
                     if (errorAlert) {
                         errorAlert.style.display = 'block';
                         setTimeout(() => {
                             errorAlert.style.display = 'none';
                         }, 5000);
                     }
-                }
-            })
-            .catch(() => {
-                inquiryForm.classList.remove('loading');
-                if (errorAlert) {
-                    errorAlert.style.display = 'block';
-                    setTimeout(() => {
-                        errorAlert.style.display = 'none';
-                    }, 5000);
-                }
-            });
+                });
         });
     }
 
