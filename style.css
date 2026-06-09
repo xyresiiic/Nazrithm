@@ -390,6 +390,7 @@ nav {
     nav {
         padding: 1.4rem 0;
     }
+
     .nav-container {
         padding: 0 3rem;
         gap: 2rem;
@@ -535,7 +536,7 @@ nav.scrolled {
 
 @media (min-width: 768px) {
     .hero {
-        padding: 9rem 0 5rem;
+        padding: 9rem 0 8rem;
     }
 }
 

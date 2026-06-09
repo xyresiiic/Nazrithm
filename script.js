@@ -17,20 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const preloader = document.getElementById('preloader');
 
     const dismissPreloader = () => {
-        if (preloader) {
+        if (preloader && !preloader.classList.contains('fade-out')) {
             preloader.classList.add('fade-out');
+            document.body.classList.add('preloader-done');
+            window.dispatchEvent(new Event('preloaderFinished'));
             setTimeout(() => {
                 preloader.remove(); // Remove from DOM after transition
-                document.body.classList.add('preloader-done');
             }, 800); // match transition duration
-        } else {
+        } else if (!preloader) {
             document.body.classList.add('preloader-done');
+            window.dispatchEvent(new Event('preloaderFinished'));
         }
     };
 
     // Safely trigger preloader dismissal on window load (or fallback timeout)
     window.addEventListener('load', dismissPreloader);
-    setTimeout(dismissPreloader, 2500); // fallback timeout 2.5s
+    setTimeout(dismissPreloader, 300); // start within 0.3s if load takes too long
 
 
     /* ──────────────────────────────────────────────
@@ -206,30 +208,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const counters = document.querySelectorAll('.stat-val[data-target]');
 
     const animateCounter = (el) => {
-        const target = parseInt(el.dataset.target, 10);
-        const duration = 2000;
-        const step = 16;
-        const increment = target / (duration / step);
-        let current = 0;
+        const isFloat = el.dataset.target.includes('.');
+        const target = parseFloat(el.dataset.target);
+        const duration = 2000; // 2 seconds
+        let startTimestamp = null;
 
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                el.textContent = target;
-                clearInterval(timer);
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+
+            // easeOutQuart for smooth deceleration
+            const easeProgress = 1 - Math.pow(1 - progress, 4);
+            const current = target * easeProgress;
+
+            if (isFloat) {
+                el.textContent = current.toFixed(1);
             } else {
                 el.textContent = Math.floor(current);
             }
-        }, step);
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                el.textContent = isFloat ? target.toFixed(1) : target;
+            }
+        };
+        requestAnimationFrame(step);
     };
 
     const counterObserver = new IntersectionObserver(
-        (entries) => {
+        (entries, observer) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     const startAnimation = () => {
                         animateCounter(entry.target);
-                        counterObserver.unobserve(entry.target);
+                        observer.unobserve(entry.target);
                     };
 
                     if (document.body.classList.contains('preloader-done')) {
@@ -240,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         },
-        { threshold: 0.2 } // Lower threshold to ensure it triggers correctly
+        { threshold: 0.1 }
     );
 
     counters.forEach((counter) => counterObserver.observe(counter));
