@@ -3265,3 +3265,517 @@ nav.scrolled {
     font-size: 0.85rem;
     color: var(--muted);
 }
+
+/* ═══════════════════════════════════════════════════
+   NEW THEME OVERRIDES (Warm Light Aesthetic)
+═══════════════════════════════════════════════════ */
+
+:root {
+    --bg-primary: #F5F0E8;
+    --bg-secondary: #EDE8DF;
+    --bg-surface: #E8E2D6;
+    --accent-gold: #C9A84C;
+    --accent-gold-light: #D4AA58;
+    --text-heading: #1A1612;
+    --text-body: #4A4540;
+    --text-muted: #8A8178;
+    --border-gold: rgba(201, 168, 76, 0.2);
+    --border-nav: rgba(201, 168, 76, 0.15);
+    --shadow-gold: rgba(201, 168, 76, 0.08);
+
+    /* Variable Mapping for easy switch */
+    --black: var(--bg-primary);
+    --black-2: var(--bg-secondary);
+    --black-3: var(--bg-surface);
+    --cream: var(--text-heading);
+    --gold: var(--accent-gold);
+    --gold-dark: var(--accent-gold-light);
+    --muted: var(--text-muted);
+    --card-bg: var(--bg-secondary);
+    --border: var(--border-gold);
+    --font-display: 'Cormorant Garamond', serif;
+}
+
+/* Global Adjustments */
+body {
+    background-color: var(--bg-primary) !important;
+    background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h32v32H0z' fill='none'/%3E%3Cpath d='M0 0h32v1H0zM0 0v32h1V0z' fill='rgba(201, 168, 76, 0.08)'/%3E%3C/svg%3E") !important;
+    color: var(--text-body) !important;
+    font-weight: 300 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.section-heading,
+.hero-headline,
+.service-num,
+.step-num,
+.pricing-price span:first-child {
+    color: var(--text-heading) !important;
+    font-family: var(--font-display) !important;
+}
+
+/* Accents are typically italic in this aesthetic */
+.heading-accent,
+.accent-word,
+em {
+    color: var(--accent-gold) !important;
+    font-style: italic !important;
+}
+
+p,
+.service-desc,
+.step-desc,
+.hero-sub,
+.pricing-desc {
+    color: var(--text-body) !important;
+    font-weight: 300 !important;
+}
+
+/* Overriding specific components */
+.btn-primary {
+    background: var(--accent-gold) !important;
+    color: var(--text-heading) !important;
+    box-shadow: 0 12px 32px var(--shadow-gold) !important;
+}
+
+.btn-ghost {
+    background: transparent !important;
+    border: 1px solid var(--accent-gold) !important;
+    color: var(--text-body) !important;
+}
+
+.btn-ghost:hover {
+    border-color: var(--accent-gold) !important;
+    color: var(--text-heading) !important;
+}
+
+/* Navigation */
+nav {
+    background: rgba(245, 240, 232, 0.88) !important;
+    border-bottom: 1px solid var(--border-nav) !important;
+    box-shadow: 0 24px 60px var(--shadow-gold) !important;
+}
+
+nav.scrolled {
+    background: rgba(245, 240, 232, 0.95) !important;
+}
+
+.nav-links a {
+    color: var(--text-heading) !important;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--accent-gold) !important;
+}
+
+.nav-cta {
+    background: var(--accent-gold) !important;
+    color: var(--text-heading) !important;
+    box-shadow: none !important;
+}
+
+/* Hero Section */
+.hero-bg {
+    background: radial-gradient(circle at top center, rgba(201, 168, 76, 0.12) 0%, transparent 70%) !important;
+}
+
+.hero-orb {
+    display: none !important;
+}
+
+/* Hide old orbs */
+
+.hero-eyebrow {
+    color: var(--accent-gold) !important;
+    background: rgba(201, 168, 76, 0.05) !important;
+    border-color: var(--border-gold) !important;
+}
+
+.hero-sub {
+    color: var(--text-muted) !important;
+}
+
+.stat-val {
+    color: var(--accent-gold) !important;
+}
+
+.stat-label {
+    color: var(--text-body) !important;
+}
+
+.stat-divider {
+    background: rgba(201, 168, 76, 0.2) !important;
+}
+
+/* Marquee */
+.marquee-section {
+    background: var(--bg-secondary) !important;
+    border-top: 1px solid var(--border-gold) !important;
+    border-bottom: 1px solid var(--border-gold) !important;
+}
+
+.marquee-item {
+    color: var(--text-body) !important;
+}
+
+/* About Section */
+.section-about {
+    background: var(--bg-primary) !important;
+}
+
+.section-label {
+    color: var(--accent-gold) !important;
+}
+
+.about-pills .pill {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--accent-gold) !important;
+    color: var(--text-body) !important;
+}
+
+.about-content strong {
+    color: var(--text-heading) !important;
+    font-weight: 700 !important;
+}
+
+/* Services */
+.section-services {
+    /* transparent */
+}
+
+.service-card {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-gold) !important;
+    box-shadow: 0 10px 30px var(--shadow-gold) !important;
+}
+
+.service-card:hover {
+    border-color: rgba(201, 168, 76, 0.5) !important;
+}
+
+.service-num {
+    color: var(--accent-gold) !important;
+}
+
+.service-title {
+    color: var(--text-heading) !important;
+}
+
+.service-desc {
+    color: var(--text-body) !important;
+}
+
+.s-tag {
+    background: var(--bg-surface) !important;
+    color: var(--text-muted) !important;
+    border: none !important;
+}
+
+/* Work */
+.work-card {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-gold) !important;
+}
+
+.work-overlay {
+    background: rgba(245, 240, 232, 0.92) !important;
+    color: var(--accent-gold) !important;
+}
+
+.work-cat {
+    color: var(--accent-gold) !important;
+}
+
+.work-title {
+    color: var(--text-heading) !important;
+}
+
+/* Process */
+.step-num {
+    color: var(--accent-gold) !important;
+}
+
+.step-title {
+    color: var(--text-heading) !important;
+}
+
+.step-desc {
+    color: var(--text-body) !important;
+}
+
+.process-step::after {
+    border-left: 2px dashed rgba(201, 168, 76, 0.3) !important;
+}
+
+@media (min-width: 768px) {
+    .process-steps::before {
+        border-top: 2px dashed rgba(201, 168, 76, 0.3) !important;
+    }
+}
+
+/* Pricing */
+.pricing-card {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-gold) !important;
+}
+
+.pricing-card.popular {
+    background: var(--bg-surface) !important;
+    border-top: 2px solid var(--accent-gold) !important;
+    border-image: linear-gradient(90deg, transparent, #C9A84C, transparent) 1 !important;
+}
+
+.pricing-price span:first-child {
+    color: var(--accent-gold) !important;
+}
+
+.pricing-period {
+    color: var(--text-muted) !important;
+}
+
+.pricing-features li {
+    color: var(--text-body) !important;
+}
+
+.pricing-features i.fa-check {
+    background: rgba(201, 168, 76, 0.15) !important;
+    border: 1px solid rgba(201, 168, 76, 0.4) !important;
+    color: var(--accent-gold) !important;
+}
+
+.pricing-target {
+    color: rgba(201, 168, 76, 0.6) !important;
+}
+
+.pricing-btn {
+    background: transparent !important;
+    border: 1px solid rgba(201, 168, 76, 0.4) !important;
+    color: var(--text-body) !important;
+}
+
+.pricing-btn:hover {
+    border-color: var(--accent-gold) !important;
+    color: var(--text-heading) !important;
+}
+
+.pricing-card.popular .pricing-btn {
+    background: var(--accent-gold) !important;
+    color: var(--text-heading) !important;
+}
+
+/* FAQ */
+.accordion-item {
+    background: var(--bg-secondary) !important;
+    border: 1px solid var(--border-gold) !important;
+}
+
+.accordion-item.active {
+    border-left: 2px solid var(--accent-gold) !important;
+}
+
+.accordion-header {
+    color: var(--text-heading) !important;
+}
+
+.accordion-icon {
+    color: var(--accent-gold) !important;
+}
+
+.accordion-body {
+    color: var(--text-body) !important;
+}
+
+/* Contact Section */
+.section-contact {
+    background: var(--bg-secondary) !important;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: var(--bg-primary) !important;
+    border: 1px solid rgba(201, 168, 76, 0.25) !important;
+    color: var(--text-heading) !important;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted) !important;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--accent-gold) !important;
+}
+
+.submit-btn {
+    background: var(--accent-gold) !important;
+    color: var(--text-heading) !important;
+}
+
+.contact-info-item i {
+    color: var(--accent-gold) !important;
+}
+
+/* Footer (Forced Dark) */
+footer,
+.site-footer,
+#footer {
+    background: #1A1612 !important;
+    border-top: 1px solid rgba(201, 168, 76, 0.1) !important;
+}
+
+footer * {
+    color: #8A8178;
+    /* default to muted in footer */
+}
+
+footer .nav-logo {
+    color: #F5F0E8 !important;
+}
+
+footer h3,
+footer h4,
+footer .footer-heading {
+    color: #F5F0E8 !important;
+}
+
+footer a {
+    color: #8A8178 !important;
+}
+
+footer p {
+    color: #8A8178 !important;
+}
+
+footer a:hover {
+    color: #C9A84C !important;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(201, 168, 76, 0.1) !important;
+    color: rgba(245, 240, 232, 0.35) !important;
+}
+
+/* Utility: Callout Box */
+.callout-box {
+    background: rgba(201, 168, 76, 0.08) !important;
+    border: 1px solid rgba(201, 168, 76, 0.25) !important;
+    border-radius: 8px !important;
+    padding: 1.5rem !important;
+}
+
+.callout-box .callout-label {
+    color: var(--accent-gold) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    font-size: 0.8rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.callout-box .callout-body {
+    color: var(--text-body) !important;
+    font-style: italic !important;
+}
+
+/* Other fixes */
+.preloader {
+    background: var(--bg-primary) !important;
+}
+
+.preloader-logo {
+    color: var(--text-heading) !important;
+}
+
+.preloader-line {
+    background: var(--border-gold) !important;
+}
+
+.preloader-progress {
+    background: linear-gradient(90deg, transparent, var(--accent-gold), transparent) !important;
+}
+
+.preloader-status {
+    color: var(--text-muted) !important;
+}
+
+.cursor,
+.cursor.cursor-hover {
+    background: var(--accent-gold) !important;
+    mix-blend-mode: normal !important;
+    /* Disable blend mode so it's visible on light */
+}
+
+.cursor-follow {
+    border-color: rgba(201, 168, 76, 0.35) !important;
+}
+
+.cursor-follow.cursor-follow-hover {
+    border-color: var(--accent-gold) !important;
+    background: rgba(201, 168, 76, 0.05) !important;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%) !important;
+    box-shadow: 0 0 15px rgba(201, 168, 76, 0.5) !important;
+}
+
+.hamburger span {
+    background: var(--text-heading) !important;
+}
+
+/* Fixes for text outline and about cards */
+.line-outline {
+    -webkit-text-stroke: 0 !important;
+    color: var(--accent-gold) !important;
+    font-family: 'Cormorant Garamond', serif !important;
+    font-style: italic !important;
+    font-weight: 500 !important;
+}
+
+.hero-headline .accent-word {
+    color: var(--text-heading) !important;
+    font-family: var(--font-display) !important;
+    font-style: normal !important;
+}
+
+.stack-card {
+    background: rgba(245, 240, 232, 0.85) !important;
+    box-shadow: 0 20px 40px var(--shadow-gold) !important;
+}
+
+.stack-card:hover {
+    box-shadow: 0 24px 48px rgba(201, 168, 76, 0.12) !important;
+}
+
+.card-social .card-media {
+    background: var(--bg-surface) !important;
+    border: 1px solid var(--border-gold) !important;
+}
+
+.card-social .media-overlay {
+    background: rgba(245, 240, 232, 0.92) !important;
+    border-color: var(--border-gold) !important;
+}
+
+.card-brand .swatch {
+    border: 1px solid var(--border-gold) !important;
+}
+
+/* CTA Form Container Fix */
+.cta-form-container {
+    background: var(--bg-surface) !important;
+    border: 1px solid var(--border-gold) !important;
+    box-shadow: 0 20px 50px var(--shadow-gold) !important;
+}
+
+.cta-form-container::before {
+    display: none !important;
+}
