@@ -490,7 +490,7 @@
                             <span class="heading-accent">Designed</span>
                         </h2>
                     </div>
-                    <a href="#cta" class="btn-ghost">See All Projects →</a>
+                    <a href="javascript:void(0)" id="seeAllProjectsBtn" class="btn-ghost">See All Projects →</a>
                 </div>
 
                 <div class="work-grid">
@@ -1399,6 +1399,27 @@
             </div>
         </div>
     </footer>
+
+    <!-- GALLERY MODAL -->
+    <div id="galleryModal" class="gallery-modal">
+        <div class="gallery-modal-content">
+            <span class="gallery-close">&times;</span>
+            <div class="gallery-grid">
+                <img src="images/WedWeb.png" alt="Wedding Invite Website" loading="lazy">
+                <img src="images/restaurant.png" alt="LUMINA & Co." loading="lazy">
+                <img src="images/content.png" alt="Profile Design for Instagram" loading="lazy">
+                <img src="images/lustreva.png" alt="Lustreva Gifting Web Design" loading="lazy">
+                <img src="images/design-brand.png" alt="Brand Identity Kit" loading="lazy">
+                <img src="images/work-zest.png" alt="Zest Eats Brand & Social" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX FOR GALLERY IMAGES -->
+    <div id="lightboxOverlay" class="lightbox-overlay">
+        <span class="lightbox-close">&times;</span>
+        <img id="lightboxImg" class="lightbox-img" src="" alt="">
+    </div>
 
     <script src="script.js"></script>
 </body>

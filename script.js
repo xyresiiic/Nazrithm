@@ -547,6 +547,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ──────────────────────────────────────────────
+       17. GALLERY MODAL & LIGHTBOX
+    ────────────────────────────────────────────── */
+    const seeAllProjectsBtn = document.getElementById('seeAllProjectsBtn');
+    const galleryModal = document.getElementById('galleryModal');
+    const galleryCloseBtn = document.querySelector('.gallery-close');
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.querySelector('.lightbox-close');
+    const galleryImages = document.querySelectorAll('.gallery-grid img');
+
+    if (seeAllProjectsBtn && galleryModal) {
+        seeAllProjectsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            galleryModal.classList.add('show');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+
+        galleryCloseBtn.addEventListener('click', () => {
+            galleryModal.classList.remove('show');
+            document.body.style.overflow = '';
+        });
+
+        galleryModal.addEventListener('click', (e) => {
+            if (e.target === galleryModal) {
+                galleryModal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    if (galleryImages && lightboxOverlay) {
+        galleryImages.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightboxOverlay.classList.add('show');
+            });
+        });
+
+        lightboxClose.addEventListener('click', () => {
+            lightboxOverlay.classList.remove('show');
+            setTimeout(() => { lightboxImg.src = ''; }, 300);
+        });
+
+        lightboxOverlay.addEventListener('click', (e) => {
+            if (e.target === lightboxOverlay) {
+                lightboxOverlay.classList.remove('show');
+                setTimeout(() => { lightboxImg.src = ''; }, 300);
+            }
+        });
+    }
+
+    /* ──────────────────────────────────────────────
        16. INITIAL PAGE LOAD — Stagger Hero Elements
     ────────────────────────────────────────────── */
     const heroContent = document.querySelector('.hero-content');
