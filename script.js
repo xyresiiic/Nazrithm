@@ -600,6 +600,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ──────────────────────────────────────────────
+       BLOG ARTICLE OVERLAYS
+    ────────────────────────────────────────────── */
+    const blogReadBtns = document.querySelectorAll('.blog-read-btn');
+    const blogOverlays = document.querySelectorAll('.blog-overlay');
+    const blogCloses = document.querySelectorAll('.blog-close');
+
+    if (blogReadBtns.length > 0) {
+        blogReadBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = btn.getAttribute('data-blog-target');
+                const overlay = document.getElementById(targetId);
+                if (overlay) {
+                    overlay.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        blogCloses.forEach(closeBtn => {
+            closeBtn.addEventListener('click', () => {
+                blogOverlays.forEach(overlay => overlay.classList.remove('show'));
+                document.body.style.overflow = '';
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                blogOverlays.forEach(overlay => {
+                    if (overlay.classList.contains('show')) {
+                        overlay.classList.remove('show');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+        });
+    }
+
+    /* ──────────────────────────────────────────────
        16. INITIAL PAGE LOAD — Stagger Hero Elements
     ────────────────────────────────────────────── */
     const heroContent = document.querySelector('.hero-content');
