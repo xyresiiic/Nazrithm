@@ -240,15 +240,26 @@ document.addEventListener('DOMContentLoaded', () => {
         (entries, observer) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    const startAnimation = () => {
-                        animateCounter(entry.target);
-                        observer.unobserve(entry.target);
-                    };
+                    const el = entry.target;
+                    observer.unobserve(el);
 
+                    const startAnimation = () => animateCounter(el);
+
+                    // If preloader is already done, animate immediately
                     if (document.body.classList.contains('preloader-done')) {
                         startAnimation();
                     } else {
-                        window.addEventListener('preloaderFinished', startAnimation, { once: true });
+                        // Listen for the event, but also add a fallback timeout
+                        // in case the event was already dispatched before this listener was added
+                        const onPreloaderDone = () => {
+                            clearTimeout(fallbackTimer);
+                            startAnimation();
+                        };
+                        const fallbackTimer = setTimeout(() => {
+                            window.removeEventListener('preloaderFinished', onPreloaderDone);
+                            startAnimation();
+                        }, 600); // fallback: animate after 600ms regardless
+                        window.addEventListener('preloaderFinished', onPreloaderDone, { once: true });
                     }
                 }
             });
@@ -558,11 +569,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryImages = document.querySelectorAll('.gallery-grid img');
 
     if (seeAllProjectsBtn && galleryModal) {
-        seeAllProjectsBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            galleryModal.classList.add('show');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
-        });
+        // "See All Projects" now scrolls to #designs via the smooth scroll handler (section 7).
+        // The gallery modal can still be opened programmatically if needed.
 
         galleryCloseBtn.addEventListener('click', () => {
             galleryModal.classList.remove('show');
