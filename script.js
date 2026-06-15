@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const animateCounter = (el) => {
         const isFloat = el.dataset.target.includes('.');
         const target = parseFloat(el.dataset.target);
-        const duration = 2000; // 2 seconds
+        const duration = 1500; // 1.5 seconds
         let startTimestamp = null;
 
         const step = (timestamp) => {
