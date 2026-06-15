@@ -614,6 +614,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const blogOverlays = document.querySelectorAll('.blog-overlay');
     const blogCloses = document.querySelectorAll('.blog-close');
 
+    const blogData = {
+        'blog-viral': {
+            slug: 'viral-brand-identity',
+            title: 'How to Build a Viral Brand Identity | NAZRiTHM Blog',
+            desc: 'Learn the core principles of crafting an aesthetic and voice that resonates deeply with your audience and stands out online.'
+        },
+        'blog-reels': {
+            slug: 'power-of-short-form-reels',
+            title: 'The Power of Short-Form Reels | NAZRiTHM Blog',
+            desc: 'Discover why Instagram Reels and TikTok are the fastest, most effective ways to scale your business locally and globally.'
+        },
+        'blog-community': {
+            slug: 'community-building-101',
+            title: 'Community Building 101 | NAZRiTHM Blog',
+            desc: 'A deep dive into transforming passive followers into loyal brand advocates who continually support your business.'
+        }
+    };
+
+    const defaultMeta = {
+        title: 'NAZRiTHM — Where Vision Meets Viral Rhythm',
+        desc: 'Premium creative growth agency. We build digital identities for cafés, salons, and creators that dominate online.',
+        url: 'https://nazrithm.vercel.app/'
+    };
+
+    function updateMetaTags(data) {
+        document.title = data.title;
+
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        if (ogTitle) ogTitle.content = data.title;
+
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.content = data.desc;
+
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (!canonical) {
+            canonical = document.createElement('link');
+            canonical.rel = 'canonical';
+            document.head.appendChild(canonical);
+        }
+        canonical.href = data.url;
+    }
+
     if (blogReadBtns.length > 0) {
         blogReadBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -623,26 +665,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (overlay) {
                     overlay.classList.add('show');
                     document.body.style.overflow = 'hidden';
+
+                    const data = blogData[targetId];
+                    if (data) {
+                        window.history.pushState({ modal: targetId }, '', '/blog/' + data.slug);
+                        updateMetaTags({
+                            title: data.title,
+                            desc: data.desc,
+                            url: defaultMeta.url + 'blog/' + data.slug
+                        });
+                    }
                 }
             });
         });
 
-        blogCloses.forEach(closeBtn => {
-            closeBtn.addEventListener('click', () => {
-                blogOverlays.forEach(overlay => overlay.classList.remove('show'));
-                document.body.style.overflow = '';
+        const closeAllBlogModals = () => {
+            let wasOpen = false;
+            blogOverlays.forEach(overlay => {
+                if (overlay.classList.contains('show')) {
+                    overlay.classList.remove('show');
+                    wasOpen = true;
+                }
             });
+            if (wasOpen) {
+                document.body.style.overflow = '';
+                window.history.pushState({}, '', '/');
+                updateMetaTags(defaultMeta);
+            }
+        };
+
+        blogCloses.forEach(closeBtn => {
+            closeBtn.addEventListener('click', closeAllBlogModals);
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                blogOverlays.forEach(overlay => {
-                    if (overlay.classList.contains('show')) {
-                        overlay.classList.remove('show');
-                        document.body.style.overflow = '';
-                    }
-                });
-            }
+            if (e.key === 'Escape') closeAllBlogModals();
+        });
+
+        blogOverlays.forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeAllBlogModals();
+            });
         });
     }
 
