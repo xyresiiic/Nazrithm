@@ -4068,6 +4068,98 @@ footer a:hover {
     transform: scale(1.1);
 }
 
+/* ═══════════════════════════════════════════════════
+   MEET THE FOUNDER
+═══════════════════════════════════════════════════ */
+.section-founder {
+    padding: 6rem 0;
+    background: var(--black-2);
+}
+
+.founder-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.founder-visual {
+    display: flex;
+    justify-content: center;
+}
+
+.founder-avatar-block {
+    width: 240px;
+    height: 280px;
+    border-radius: var(--radius-lg);
+    border: 1.5px solid rgba(221, 184, 114, 0.3);
+    background: var(--card-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.founder-avatar-placeholder {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--gold);
+    opacity: 0.4;
+    letter-spacing: 0.05em;
+}
+
+.founder-content .section-heading {
+    margin-bottom: 1.2rem;
+}
+
+.founder-bio {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.75;
+    max-width: 520px;
+    margin-bottom: 1.5rem;
+}
+
+.founder-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.founder-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+}
+
+@media (max-width: 768px) {
+    .founder-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        text-align: center;
+    }
+
+    .founder-bio {
+        max-width: 100%;
+    }
+
+    .founder-tags {
+        justify-content: center;
+    }
+
+    .founder-avatar-block {
+        width: 180px;
+        height: 210px;
+        margin: 0 auto;
+    }
+}
+
 /* ─── PRICING AVAILABILITY PILL ────────────────── */
 .pricing-availability-pill {
     display: inline-block;
