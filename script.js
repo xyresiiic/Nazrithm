@@ -701,6 +701,65 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.target === overlay) closeAllBlogModals();
             });
         });
+
+        // Build a slug-to-id lookup for deep linking
+        const slugToId = {};
+        for (const [id, data] of Object.entries(blogData)) {
+            slugToId[data.slug] = id;
+        }
+
+        // Deep-link: auto-open modal if page is loaded at /blog/<slug>
+        const openModalFromPath = (path) => {
+            const match = path.match(/^\/blog\/(.+)$/);
+            if (match) {
+                const targetId = slugToId[match[1]];
+                if (targetId) {
+                    const overlay = document.getElementById(targetId);
+                    if (overlay) {
+                        overlay.classList.add('show');
+                        document.body.style.overflow = 'hidden';
+                        const data = blogData[targetId];
+                        updateMetaTags({
+                            title: data.title,
+                            desc: data.desc,
+                            url: defaultMeta.url + 'blog/' + data.slug
+                        });
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+
+        // On initial page load, check if URL matches a blog article
+        openModalFromPath(window.location.pathname);
+
+        // Handle browser back/forward navigation
+        window.addEventListener('popstate', (e) => {
+            // Close any open modals first (without pushing state)
+            blogOverlays.forEach(overlay => overlay.classList.remove('show'));
+            document.body.style.overflow = '';
+
+            if (e.state && e.state.modal) {
+                // Re-open the modal from popstate
+                const overlay = document.getElementById(e.state.modal);
+                if (overlay) {
+                    overlay.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                    const data = blogData[e.state.modal];
+                    if (data) {
+                        updateMetaTags({
+                            title: data.title,
+                            desc: data.desc,
+                            url: defaultMeta.url + 'blog/' + data.slug
+                        });
+                    }
+                }
+            } else {
+                // Navigated back to homepage
+                updateMetaTags(defaultMeta);
+            }
+        });
     }
 
     /* ──────────────────────────────────────────────
