@@ -208,17 +208,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const counters = document.querySelectorAll('.stat-val[data-target]');
 
     const animateCounter = (el) => {
-        const isFloat = el.dataset.target.includes('.');
         const target = parseFloat(el.dataset.target);
-        const duration = 1500; // 1.5 seconds
+        const isFloat = el.dataset.target.includes('.');
+        const duration = 1800; // 1.8 seconds
         let startTimestamp = null;
 
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
 
-            // easeOutQuart for smooth deceleration
-            const easeProgress = 1 - Math.pow(1 - progress, 4);
+            // easeOutQuad for smooth deceleration
+            const easeProgress = progress * (2 - progress);
             const current = target * easeProgress;
 
             if (isFloat) {
@@ -240,34 +240,28 @@ document.addEventListener('DOMContentLoaded', () => {
         (entries, observer) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    const el = entry.target;
-                    observer.unobserve(el);
-
-                    const startAnimation = () => animateCounter(el);
-
-                    // If preloader is already done, animate immediately
-                    if (document.body.classList.contains('preloader-done')) {
-                        startAnimation();
-                    } else {
-                        // Listen for the event, but also add a fallback timeout
-                        // in case the event was already dispatched before this listener was added
-                        const onPreloaderDone = () => {
-                            clearTimeout(fallbackTimer);
-                            startAnimation();
-                        };
-                        const fallbackTimer = setTimeout(() => {
-                            window.removeEventListener('preloaderFinished', onPreloaderDone);
-                            startAnimation();
-                        }, 600); // fallback: animate after 600ms regardless
-                        window.addEventListener('preloaderFinished', onPreloaderDone, { once: true });
-                    }
+                    observer.unobserve(entry.target);
+                    animateCounter(entry.target);
                 }
             });
         },
         { threshold: 0.1 }
     );
 
-    counters.forEach((counter) => counterObserver.observe(counter));
+    // Defer observer attachment until the preloader is done and hero-stats
+    // has faded in — prevents the counters from finishing while still invisible
+    const attachCounterObserver = () => {
+        // Small delay to let the CSS reveal animation start first
+        setTimeout(() => {
+            counters.forEach((counter) => counterObserver.observe(counter));
+        }, 600);
+    };
+
+    if (document.body.classList.contains('preloader-done')) {
+        attachCounterObserver();
+    } else {
+        window.addEventListener('preloaderFinished', attachCounterObserver, { once: true });
+    }
 
 
     /* ──────────────────────────────────────────────
