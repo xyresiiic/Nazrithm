@@ -213,6 +213,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const duration = 1800; // 1.8 seconds
         let startTimestamp = null;
 
+        // Cancel any existing animation to prevent overlap
+        if (el.dataset.rafId) {
+            cancelAnimationFrame(parseInt(el.dataset.rafId));
+        }
+
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
@@ -228,20 +233,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (progress < 1) {
-                requestAnimationFrame(step);
+                el.dataset.rafId = requestAnimationFrame(step);
             } else {
                 el.textContent = isFloat ? target.toFixed(1) : target;
+                delete el.dataset.rafId;
             }
         };
-        requestAnimationFrame(step);
+        el.dataset.rafId = requestAnimationFrame(step);
     };
 
     const counterObserver = new IntersectionObserver(
-        (entries, observer) => {
+        (entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    observer.unobserve(entry.target);
                     animateCounter(entry.target);
+                } else {
+                    // Reset to 0 when out of view, so it can reliably animate from 0 next time
+                    if (entry.target.dataset.rafId) {
+                        cancelAnimationFrame(parseInt(entry.target.dataset.rafId));
+                        delete entry.target.dataset.rafId;
+                    }
+                    const isFloat = entry.target.dataset.target.includes('.');
+                    entry.target.textContent = isFloat ? '0.0' : '0';
                 }
             });
         },
