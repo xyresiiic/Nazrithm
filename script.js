@@ -89,8 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         updateHoverState();
-        // Export cursor hover refresh helper
-        window.refreshCursorHover = updateHoverState;
 
         // Hide cursor on mouse leave window
         document.addEventListener('mouseleave', () => {
@@ -565,32 +563,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /* ──────────────────────────────────────────────
-       17. GALLERY MODAL & LIGHTBOX
+       16. GALLERY LIGHTBOX
     ────────────────────────────────────────────── */
-    const seeAllProjectsBtn = document.getElementById('seeAllProjectsBtn');
-    const galleryModal = document.getElementById('galleryModal');
-    const galleryCloseBtn = document.querySelector('.gallery-close');
     const lightboxOverlay = document.getElementById('lightboxOverlay');
     const lightboxImg = document.getElementById('lightboxImg');
     const lightboxClose = document.querySelector('.lightbox-close');
     const galleryImages = document.querySelectorAll('.gallery-grid img');
-
-    if (seeAllProjectsBtn && galleryModal) {
-        // "See All Projects" now scrolls to #designs via the smooth scroll handler (section 7).
-        // The gallery modal can still be opened programmatically if needed.
-
-        galleryCloseBtn.addEventListener('click', () => {
-            galleryModal.classList.remove('show');
-            document.body.style.overflow = '';
-        });
-
-        galleryModal.addEventListener('click', (e) => {
-            if (e.target === galleryModal) {
-                galleryModal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-        });
-    }
 
     if (galleryImages && lightboxOverlay) {
         galleryImages.forEach(img => {
@@ -615,9 +593,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
     /* ──────────────────────────────────────────────
-       16. INITIAL PAGE LOAD — Stagger Hero Elements
+       17. INITIAL PAGE LOAD — Stagger Hero Elements
     ────────────────────────────────────────────── */
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {

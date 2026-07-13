@@ -247,12 +247,6 @@ svg {
     }
 }
 
-@media (min-width: 1024px) {
-    .container {
-        padding: 0 3rem;
-    }
-}
-
 /* ─── SHARED TYPOGRAPHY ─────────────────────────── */
 .section-label {
     display: inline-flex;
@@ -1423,7 +1417,6 @@ nav.scrolled {
     background: var(--black-2);
 }
 
-
 @media (max-width: 1024px) {
     .process-steps {
         grid-template-columns: repeat(2, 1fr);
@@ -1486,120 +1479,68 @@ nav.scrolled {
 }
 
 /* ═══════════════════════════════════════════════════
-   TESTIMONIALS
+   BLOG LISTING (Homepage)
 ═══════════════════════════════════════════════════ */
-.section-testimonials {
+.section-blog {
     padding: 6rem 0;
-    background: var(--black);
 }
 
-@media (max-width: 768px) {
-    .section-testimonials {
-        padding: 4rem 0;
-    }
-}
-
-.section-testimonials .section-label {
-    margin-bottom: 1rem;
-}
-
-.section-testimonials .section-heading {
-    margin-bottom: 3rem;
-}
-
-.testi-grid {
+.blog-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
 }
 
-@media (max-width: 1024px) {
-    .testi-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 640px) {
-    .testi-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.testi-card {
+.blog-card {
     background: var(--card-bg);
-    border: 1px solid var(--border);
     border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.blog-card:hover {
+    border-color: rgba(230, 199, 139, 0.15);
+}
+
+.blog-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.blog-card-body {
     padding: 1.8rem;
-    transition: border-color var(--transition);
 }
 
-.testi-card:hover {
-    border-color: rgba(241, 224, 193, 0.1);
-}
-
-.testi-stars {
+.blog-card-category {
+    font-size: 0.8rem;
     color: var(--gold);
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
-.testi-text {
-    color: var(--muted);
-    font-size: 0.85rem;
-    line-height: 1.75;
-    font-weight: 300;
-    font-style: italic;
-    margin-bottom: 1.4rem;
-}
-
-.testi-author {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
-
-.author-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.blog-card-title {
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 0.72rem;
-    flex-shrink: 0;
-}
-
-.av-green {
-    background: rgba(221, 184, 114, 0.1);
-    color: var(--gold);
-    border: 1px solid rgba(221, 184, 114, 0.2);
-}
-
-.av-pink {
-    background: rgba(255, 90, 118, 0.1);
-    color: #ff5a76;
-    border: 1px solid rgba(255, 90, 118, 0.2);
-}
-
-.av-blue {
-    background: rgba(78, 212, 190, 0.1);
-    color: #4ed4be;
-    border: 1px solid rgba(78, 212, 190, 0.2);
-}
-
-.author-name {
-    font-weight: 500;
-    font-size: 0.85rem;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
     color: var(--cream);
 }
 
-.author-role {
-    font-size: 0.72rem;
+.blog-card-excerpt {
     color: var(--muted);
-    margin-top: 1px;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.blog-read-link {
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -3068,7 +3009,6 @@ nav.scrolled {
     border-color: rgba(221, 184, 114, 0.3);
 }
 
-
 .pricing-badge {
     display: inline-block;
     padding: 0.3rem 0.8rem;
@@ -3445,7 +3385,6 @@ nav.scrolled {
     color: var(--text-heading) !important;
     font-weight: 700 !important;
 }
-
 
 .service-card {
     background: var(--bg-secondary) !important;
@@ -4013,8 +3952,6 @@ footer a:hover {
     color: var(--cream);
 }
 
-
-
 /* ═══════════════════════════════════════════════════
    MEET THE FOUNDER
 ═══════════════════════════════════════════════════ */
@@ -4109,7 +4046,7 @@ footer a:hover {
 
 /* ─── PRICING AVAILABILITY PILL ────────────────── */
 .pricing-availability-pill {
-    display: inline-block;
+    display: block;
     font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 500;
@@ -4123,8 +4060,6 @@ footer a:hover {
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
-    display: block;
-    width: fit-content;
 }
 
 /* ─── FLOATING WHATSAPP BUTTON ─────────────────── */
