@@ -31,7 +31,7 @@
     --card-bg: #0C0C0C;
     --border: #1C1B19;
 
-    --font-display: 'Syne', sans-serif;
+    --font-display: 'Cormorant Garamond', serif;
     --font-body: 'DM Sans', sans-serif;
 
     --radius-sm: 8px;
@@ -1409,6 +1409,29 @@ nav.scrolled {
     color: var(--cream);
 }
 
+.work-demo-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.work-demo-link i {
+    font-size: 0.7rem;
+    margin-left: 0.3rem;
+}
+
+.work-demo-link:hover {
+    background: rgba(201, 168, 76, 0.1);
+    border-color: var(--gold);
+}
+
 /* ═══════════════════════════════════════════════════
    PROCESS
 ═══════════════════════════════════════════════════ */
@@ -2056,6 +2079,7 @@ nav.scrolled {
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--cream);
+    margin-top: 0;
     margin-bottom: 1.2rem;
 }
 
@@ -3224,6 +3248,9 @@ nav.scrolled {
     --border-gold: rgba(201, 168, 76, 0.2);
     --border-nav: rgba(201, 168, 76, 0.15);
     --shadow-gold: rgba(201, 168, 76, 0.08);
+
+    /* Missing variable referenced by blog pages */
+    --black-1: var(--bg-primary);
 
     /* Variable Mapping for easy switch */
     --black: var(--bg-primary);

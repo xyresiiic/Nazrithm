@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Safely trigger preloader dismissal on window load (or fallback timeout)
     window.addEventListener('load', dismissPreloader);
-    setTimeout(dismissPreloader, 300); // start within 0.3s if load takes too long
+    setTimeout(dismissPreloader, 3000); // fallback if load event is slow (3s max)
 
 
     /* ──────────────────────────────────────────────
@@ -341,14 +341,18 @@ document.addEventListener('DOMContentLoaded', () => {
        10. MARQUEE — Pause on Hover
     ────────────────────────────────────────────── */
     const marqueeSection = document.querySelector('.marquee-section');
-    const marqueeTrack = document.querySelector('.marquee-track');
+    const marqueeTracks = document.querySelectorAll('.marquee-track');
 
-    if (marqueeSection && marqueeTrack) {
+    if (marqueeSection && marqueeTracks.length) {
         marqueeSection.addEventListener('mouseenter', () => {
-            marqueeTrack.style.animationPlayState = 'paused';
+            marqueeTracks.forEach(track => {
+                track.style.animationPlayState = 'paused';
+            });
         });
         marqueeSection.addEventListener('mouseleave', () => {
-            marqueeTrack.style.animationPlayState = 'running';
+            marqueeTracks.forEach(track => {
+                track.style.animationPlayState = 'running';
+            });
         });
     }
 
@@ -579,10 +583,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        lightboxClose.addEventListener('click', () => {
-            lightboxOverlay.classList.remove('show');
-            setTimeout(() => { lightboxImg.src = ''; }, 300);
-        });
+        if (lightboxClose) {
+            lightboxClose.addEventListener('click', () => {
+                lightboxOverlay.classList.remove('show');
+                setTimeout(() => { lightboxImg.src = ''; }, 300);
+            });
+        }
 
         lightboxOverlay.addEventListener('click', (e) => {
             if (e.target === lightboxOverlay) {
